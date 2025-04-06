@@ -148,20 +148,26 @@ const title = document.getElementById('title');
 const createHtmlInfo = (name, telefono) => {
 
   let htmlInfo =
-    ` <hr>
+
+    ` <section id="htmlInfo">
+    
+    <hr>
       <p class="card-text">
         <span id="nombre">${name}</span>
         <span id="telefono">Telefono: ${telefono}</span>
       </p>
       <hr>
-      <div class="d-flex p-0" id="btn-actions">
+  <div class="d-flex p-0" id="btn-actions">
     <a href="tel:${telefono}" class="w-100 me-1">
         <button type="button" class="btn btn-warning w-100">Llamada</button>
     </a>
     <a href="https://wa.me/${telefono}?text=Hola!%20${name}%20estoy%20con%20contraciones%20cada" class="w-100 ms-1">
         <button type="button" class="btn btn-success w-100">Whatsapp</button>
     </a>
-  </div>`;
+  </div>
+  
+  </section>
+  `;
       
   title.insertAdjacentHTML('afterend', htmlInfo);
 };
@@ -171,7 +177,12 @@ const createHtmlInfo = (name, telefono) => {
 btnUpdate.addEventListener('click', e => {
 
   e.preventDefault();
- iniciandoApp();
+
+  const htmlInfo = document.getElementById('htmlInfo');
+  if(htmlInfo){
+    htmlInfo.remove();
+  }
+  iniciandoApp();
 
 });
 
