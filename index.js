@@ -1,19 +1,19 @@
 const data = {
   "parteras": {
-    "Aldana": "221-5486386",
-    "Ariana": "2345-506957",
-    "Carla": "221-4594207",
-    "Karen": "221-5578258",
-    "Macarena": "2214-347182",
-    "Malena": "221-5917893",
-    "Narela": "221-3194930",
-    "Pilar": "221-6059921",
-    "Rocío": "221-3148089",
-    "Sandra": "221-4367986",
-    "Sofía": "221-6492181",
-    "Valentina": "291-5763225",
-    "Vanina": "2345-688045",
-    "Verónica": "221-5561941"
+    "Aldana": "2215486386",
+    "Ariana": "2345506957",
+    "Carla": "2214594207",
+    "Karen": "2215578258",
+    "Macarena": "2214347182",
+    "Malena": "2215917893",
+    "Narela": "2213194930",
+    "Pilar": "2216059921",
+    "Rocío": "2213148089",
+    "Sandra": "2214367986",
+    "Sofía": "2216492181",
+    "Valentina": "2915763225",
+    "Vanina": "2345688045",
+    "Verónica": "2215561941"
   },
   "guardias": {
     "1": {
@@ -129,89 +129,94 @@ const data = {
       "noche": "Vanina"
     },
     "29": {
-      "dia": "Sandra",
-      "noche": "Karen"
-    },
-    "30": {
-      "dia": "Carla",
-      "noche": "Verónica"
-    }
+        "dia": "Sandra",
+        "noche": "Karen"
+      },
+      "30": {
+          "dia": "Carla",
+          "noche": "Verónica"
+      }
   }
 }
 
-const btnUpdate = document.getElementById('update');
-const parteraSection = document.getElementById('partera');
-const title = document.getElementById('title');
+const title = document.querySelector('#title')
+const btnUpdate = document.querySelector('#update');
 
-
-
-const createHtmlInfo = (name, telefono) => {
-
-  let htmlInfo =
-
-    ` <section id="htmlInfo">
-    
-    <hr>
-      <p class="card-text">
-        <span id="nombre">${name}</span>
-        <span id="telefono">Telefono: ${telefono}</span>
-      </p>
-      <hr>
-  <div class="d-flex p-0" id="btn-actions">
-    <a href="tel:${telefono}" class="w-100 me-1">
-        <button type="button" class="btn btn-warning w-100">Llamada</button>
-    </a>
-    <a href="https://wa.me/${telefono}?text=Hola!%20${name}%20estoy%20con%20contraciones%20cada" class="w-100 ms-1">
-        <button type="button" class="btn btn-success w-100">Whatsapp</button>
-    </a>
-  </div>
+const createSectionGuardia = (name, phone) => {
   
-  </section>
-  `;
-      
-  title.insertAdjacentHTML('afterend', htmlInfo);
-};
+  let guardia = `
+  <section id='htmlInfo'>
+      <p id='info' class="info">${name} Teléfono: ${phone}</p>
+      <div class="buttons">
+          <a href="tel:${phone}" class="btn call">📞 Llamar</a>
+          <a href="https://wa.me/${phone}?text=Hola!%20${name}%20estoy%20con%20contraciones%20cada" class="btn whatsapp">💬 WhatsApp</a>
+      </div>
+  </section> `
+  
+  title.insertAdjacentHTML('afterend', guardia);
+}
 
-// const fechaISO = ahora.toISOString().split('T')[0]; // YYYY-MM-DD
+const animateUpadate = () => {
 
-btnUpdate.addEventListener('click', e => {
+  const htmlInfo = document.querySelector('#info');
+  if (htmlInfo) {
+      htmlInfo.remove(); // Elimina la información actual
+  }
 
-  e.preventDefault();
+  // Crea un mensaje de "Actualizando..."
+  const loadingMessage = document.createElement('p');
+  loadingMessage.classList = 'info'
+  loadingMessage.id = 'loading';
+  loadingMessage.textContent = 'Actualizando...';
+  loadingMessage.style.textAlign = 'center';
+  loadingMessage.style.fontSize = '1.2rem';
+  loadingMessage.style.color = '#007bff'; // Azul para indicar acción
+  title.insertAdjacentElement('afterend', loadingMessage);
 
-  const htmlInfo = document.getElementById('htmlInfo');
+  // Simula retraso 
+  setTimeout(() => {
+      loadingMessage.remove(); 
+      appInit();
+  }, 1000); // 
+}
+
+const appInit = () => {
+  
+  let ahora = new Date();
+  let hora = ahora.getHours();
+  let dia = ahora.getDate();
+  let dataPartera = data.guardias[dia];
+  
+  const htmlInfo = document.querySelector('#htmlInfo')
+  
+  
   if(htmlInfo){
-    htmlInfo.remove();
+      htmlInfo.remove()
   }
-  iniciandoApp();
-
-});
-
-const iniciandoApp = () => {
-  const ahora = new Date();
-
-  const hora = ahora.getHours();
-  const dayNumber = ahora.getDate();
-
-  let dia = data.guardias[dayNumber];
-
-  if (hora < 8) {
-    dia = data.guardias[dayNumber - 1];
-    createHtmlInfo(dia.noche, data.parteras[dia.noche]);
-    console.log(`Guardia de ${dia.noche} TEL:  ${data.parteras[dia.noche]}`);
+  
+  if(hora >= 8 && hora < 20){
+      createSectionGuardia(dataPartera.dia, data.parteras[dataPartera.dia] )
   }
-  else if (hora >= 8 && hora < 20) {
-    createHtmlInfo(dia.dia, data.parteras[dia.dia]);
-    console.log(`Guardia de ${dia.dia} TEL:  ${data.parteras[dia.dia]}`);
-  } else {
-    createHtmlInfo(dia.noche, data.parteras[dia.noche]);
-    console.log(`Guardia de ${dia.noche} TEL: ${data.parteras[dia.noche]}`);
+  else if( hora >= 20){
+      createSectionGuardia(dataPartera.noche, data.parteras[dataPartera.noche])
   }
-};
-iniciandoApp();
+  else{
+      dataPartera = data.guardias[dia - 1];
+      createSectionGuardia(dataPartera.noche, data.parteras[dataPartera.noche])
+  }
+
+}
+
+btnUpdate.addEventListener('click', e =>{
+  e.preventDefault();
+  animateUpadate()
+})
+
+appInit();
 
 
-// if ('serviceWorker' in navigator) {
-//   navigator.serviceWorker.register('sw.js')
-//     .then(() => console.log("Service Worker registrado"))
-//     .catch(err => console.error("Error al registrar el SW:", err));
-// }
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js')
+    .then(() => console.log("Service Worker registrado"))
+    .catch(err => console.error("Error al registrar el SW:", err));
+}
