@@ -215,8 +215,8 @@ btnUpdate.addEventListener('click', e =>{
 appInit();
 
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-    .then(() => console.log("Service Worker registrado"))
-    .catch(err => console.error("Error al registrar el SW:", err));
-}
+// if ('serviceWorker' in navigator) {
+//   navigator.serviceWorker.register('sw.js')
+//     .then(() => console.log("Service Worker registrado"))
+//     .catch(err => console.error("Error al registrar el SW:", err));
+// }
