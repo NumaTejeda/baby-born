@@ -1,87 +1,93 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  body {
-    font-family: 'Nunito', sans-serif;
-    background-color: #E6F0FA;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 20px;
-  }
-  
-  .container {
-    text-align: center;
-  }
-  
-  h1 {
-    color: #2C3E50;
-    margin-bottom: 20px;
-    font-size: 28px;
-  }
-  
-  .card {
-    background-color: white;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    max-width: 320px;
-    margin: 0 auto;
-  }
-  
-  .card h2 {
-    color: #FF6F61;
-    margin-bottom: 15px;
-    font-size: 22px;
-  }
-  
-  .info {
-    color: #34495E;
-    margin-bottom: 20px;
-    font-size: 23px;
-    line-height: 1.5;
-    font-weight: bolder;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  
-  .btn {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    transition: transform 0.2s ease;
-  }
-  
-  .btn:hover {
-    transform: scale(1.05);
-  }
-  
-  .call {
-    background-color: #F7DC6F;
-    color: #444;
-  }
-  
-  .whatsapp {
-    background-color: #58D68D;
-  }
-  
-  .update {
-    background-color: #5DADE2;
-    width: 100%;
-  }
-  
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background-color: #E6F0FA;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  color: #2C3E50;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  width: 320px;
+  height: 320px;
+  margin: 0 auto;
+}
+
+.card h2 {
+  color: #FF6F61;
+  margin-bottom: 15px;
+  font-size: 22px;
+}
+
+.info {
+  color: #34495E;
+  margin-bottom: 20px;
+  font-size: 23px;
+  line-height: 1.5;
+  font-weight: bolder;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.install {
+  flex: 1;
+  color: gray !important;
+  text-decoration: underline;
+}
+
+.call {
+  background-color: #F7DC6F;
+  color: #444;
+}
+
+.whatsapp {
+  background-color: #58D68D;
+}
+
+.update {
+  background-color: #5DADE2;
+  width: 100%;
+}

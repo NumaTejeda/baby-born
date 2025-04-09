@@ -207,20 +207,55 @@ const appInit = () => {
 
 }
 
-btnUpdate.addEventListener('click', e =>{
-  e.preventDefault();
-  animateUpadate()
+document.addEventListener('DOMContentLoaded', e =>{
+  e.preventDefault
+  btnUpdate.addEventListener('click', e =>{
+    e.preventDefault();
+    animateUpadate()
+  })
+
 })
 
 appInit();
 
+let deferredPrompt;
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js')
-      .then(registration => {
-          console.log('Service Worker registrado con éxito:', registration);
-      })
-      .catch(error => {
-          console.log('Error al registrar el Service Worker:', error);
-      });
+const installAppButton = document.getElementById('installApp');
+
+const isAppInstalled = ()=>{
+  if(window.matchMedia('(display-mode: standalone)').matches){
+    return true;
+  }
+  if(window.navigator.standalone){
+    return true;
+  }
 }
+// Escucha el evento 'beforeinstallprompt'
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Previene que el navegador muestre el cuadro de diálogo automáticamente
+    e.preventDefault();
+    // Guarda el evento para usarlo más tarde
+    deferredPrompt = e;
+    // Muestra el botón de instalación
+    if(!isAppInstalled()){
+      installAppButton.style.display = 'block';
+    }
+
+    // Maneja el clic en el botón de instalación
+    installAppButton.addEventListener('click', () => {
+        // Oculta el botón de instalación
+        installAppButton.style.display = 'none';
+        // Muestra el cuadro de diálogo de instalación
+        deferredPrompt.prompt();
+        // Espera la respuesta del usuario
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('El usuario aceptó la instalación');
+                installAppButton.style.display = 'none';
+            } else {
+                console.log('El usuario rechazó la instalación');
+            }
+            deferredPrompt = null; // Limpia el evento
+        });
+    });
+});
