@@ -57,7 +57,7 @@ const data = {
       "noche": "Verónica"
     },
     "11": {
-      "dia": "Carla",
+      "dia": "Verónica",
       "noche": "Ariana"
     },
     "12": {
@@ -89,11 +89,11 @@ const data = {
       "noche": "Malena"
     },
     "19": {
-      "dia": "Narela",
+      "dia": "Sofía",
       "noche": "Rocío"
     },
     "20": {
-      "dia": "Sofía",
+      "dia": "Narela",
       "noche": "Vanina"
     },
     "21": {
@@ -129,13 +129,13 @@ const data = {
       "noche": "Vanina"
     },
     "29": {
-        "dia": "Sandra",
-        "noche": "Karen"
-      },
-      "30": {
-          "dia": "Carla",
-          "noche": "Verónica"
-      }
+      "dia": "Undefined",
+      "noche": "Karen"
+    },
+    "30": {
+      "dia": "Carla",
+      "noche": "Verónica"
+    }
   }
 }
 
@@ -143,7 +143,7 @@ const title = document.querySelector('#title')
 const btnUpdate = document.querySelector('#update');
 
 const createSectionGuardia = (name, phone) => {
-  
+
   let guardia = `
   <section id='htmlInfo'>
       <p id='info' class="info">${name} Teléfono: ${phone}</p>
@@ -151,8 +151,8 @@ const createSectionGuardia = (name, phone) => {
           <a href="tel:${phone}" class="btn call">📞 Llamar</a>
           <a href="https://wa.me/${phone}?text=Hola!%20${name}%20estoy%20con%20contraciones%20cada" class="btn whatsapp">💬 WhatsApp</a>
       </div>
-  </section> `
-  
+      </section> `
+
   title.insertAdjacentHTML('afterend', guardia);
 }
 
@@ -160,7 +160,7 @@ const animateUpadate = () => {
 
   const htmlInfo = document.querySelector('#info');
   if (htmlInfo) {
-      htmlInfo.remove(); // Elimina la información actual
+    htmlInfo.remove(); // Elimina la información actual
   }
 
   // Crea un mensaje de "Actualizando..."
@@ -175,46 +175,48 @@ const animateUpadate = () => {
 
   // Simula retraso 
   setTimeout(() => {
-      loadingMessage.remove(); 
-      appInit();
+    loadingMessage.remove();
+    appInit();
   }, 1000); // 
 }
 
 const appInit = () => {
-  
+
   let ahora = new Date();
   let hora = ahora.getHours();
   let dia = ahora.getDate();
   let dataPartera = data.guardias[dia];
-  
+
   const htmlInfo = document.querySelector('#htmlInfo')
-  
-  
-  if(htmlInfo){
-      htmlInfo.remove()
+
+
+  if (htmlInfo) {
+    htmlInfo.remove()
   }
-  
-  if(hora >= 8 && hora < 20){
-      createSectionGuardia(dataPartera.dia, data.parteras[dataPartera.dia] )
+
+  if (hora >= 8 && hora < 20) {
+    createSectionGuardia(dataPartera.dia, data.parteras[dataPartera.dia])
   }
-  else if( hora >= 20){
-      createSectionGuardia(dataPartera.noche, data.parteras[dataPartera.noche])
+  else if (hora >= 20) {
+    createSectionGuardia(dataPartera.noche, data.parteras[dataPartera.noche])
   }
-  else{
-      dataPartera = data.guardias[dia - 1];
-      createSectionGuardia(dataPartera.noche, data.parteras[dataPartera.noche])
+  else {
+    dataPartera = data.guardias[dia - 1];
+    createSectionGuardia(dataPartera.noche, data.parteras[dataPartera.noche])
   }
 
 }
 
-document.addEventListener('DOMContentLoaded', e =>{
-  e.preventDefault
-  btnUpdate.addEventListener('click', e =>{
-    e.preventDefault();
-    animateUpadate()
-  })
+const isAppInstalled = () => {
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    return true;
+  }
+  if (window.navigator.standalone) {
+    return true;
+  }
+  return false;
+}
 
-})
 
 appInit();
 
@@ -222,40 +224,53 @@ let deferredPrompt;
 
 const installAppButton = document.getElementById('installApp');
 
-const isAppInstalled = ()=>{
-  if(window.matchMedia('(display-mode: standalone)').matches){
-    return true;
-  }
-  if(window.navigator.standalone){
-    return true;
-  }
-}
 // Escucha el evento 'beforeinstallprompt'
-window.addEventListener('beforeinstallprompt', (e) => {
-    // Previene que el navegador muestre el cuadro de diálogo automáticamente
-    e.preventDefault();
-    // Guarda el evento para usarlo más tarde
-    deferredPrompt = e;
-    // Muestra el botón de instalación
-    if(!isAppInstalled()){
-      installAppButton.style.display = 'block';
-    }
 
-    // Maneja el clic en el botón de instalación
-    installAppButton.addEventListener('click', () => {
+const beforeinstallprompt = ()=>{
+  // if (!isAppInstalled()) {
+    //   console.log( 'intre en el if')
+    //   installAppButton.style.display = 'block';
+    // }
+    // console.log(isAppInstalled())
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      // Previene que el navegador muestre el cuadro de diálogo automáticamente
+      e.preventDefault();
+      // Guarda el evento para usarlo más tarde
+      deferredPrompt = e;
+      // Muestra el botón de instalación
+      
+      // Maneja el clic en el botón de instalación
+      installAppButton.addEventListener('click', () => {
         // Oculta el botón de instalación
-        installAppButton.style.display = 'none';
+        // // installAppButton.style.display = 'none';
         // Muestra el cuadro de diálogo de instalación
         deferredPrompt.prompt();
         // Espera la respuesta del usuario
         deferredPrompt.userChoice.then((choiceResult) => {
-            if (choiceResult.outcome === 'accepted') {
-                console.log('El usuario aceptó la instalación');
-                installAppButton.style.display = 'none';
-            } else {
-                console.log('El usuario rechazó la instalación');
-            }
-            deferredPrompt = null; // Limpia el evento
+          if (choiceResult.outcome === 'accepted') {
+            installAppButton.style.display = 'none';
+            console.log('El usuario aceptó la instalación');
+          } else {
+            console.log('El usuario rechazó la instalación');
+            installAppButton.style.display = 'block';
+          }
+          deferredPrompt = null; // Limpia el evento
         });
+      });
     });
-});
+  }
+  
+  document.addEventListener('DOMContentLoaded', e => {
+    e.preventDefault();
+    // window.addEventListener('appinstalled', () => {
+    //   console.log('La app ha sido instalada');
+    //   // Aquí puedes ocultar el botón de instalación o ejecutar otra lógica.
+    // });
+    beforeinstallprompt();
+    btnUpdate.addEventListener('click', e => {
+      e.preventDefault();
+      animateUpadate()
+    })
+    
+  })
