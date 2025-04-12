@@ -263,14 +263,12 @@ const beforeinstallprompt = ()=>{
   
   document.addEventListener('DOMContentLoaded', e => {
     e.preventDefault();
-    // window.addEventListener('appinstalled', () => {
-    //   console.log('La app ha sido instalada');
-    //   // Aquí puedes ocultar el botón de instalación o ejecutar otra lógica.
-    // });
     beforeinstallprompt();
     btnUpdate.addEventListener('click', e => {
       e.preventDefault();
-      animateUpadate()
+      animateUpadate();
+      setTimeout(()=>{
+        location.reload(true); // INFO - recarga forzada sin cache
+      }, 1000)
     })
-    
   })
